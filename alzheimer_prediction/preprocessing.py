@@ -28,8 +28,9 @@ def read_data(data_path):
 
     return df
 
+# transforms and cleans dataset for use
 def encode_data(df):
-    print("encode_data")
+    # print("encode_data")
 
     # encode categorical variables
     label_encoder = LabelEncoder()
@@ -39,20 +40,24 @@ def encode_data(df):
     X = df.drop('Group', axis=1)
     y = df['Group']
 
-    print(df.shape)
+    print(df.shape) # check to make sure data was dropped
 
     return X, y
 
-# decide which features are most important
+# prinnt out which features are most important using rf
 def find_important_features(X, y):
+    # print("find_important_features")
+    
+    # initialize and fit model to data
     rf = RandomForestClassifier()
     rf.fit(X,y)
 
+    # get feature importance from pre-built model
     important_features = rf.feature_importances_
 
+    # display important features 
     important_df = pd.DataFrame({'Feature': X.columns, 'Importance': important_features})
     important_df = important_df.sort_values(by='Importance', ascending=False)
-
     print(important_df)
 
 

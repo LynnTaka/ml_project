@@ -18,15 +18,21 @@ def read_data(data_path):
     # print(df[pd.isnull(df).any(axis=1)])
     print(df.isna().sum())
 
+    # drop the rows where the value is converted instead of dementia and nondem
+    # df = df[df['Group'] != 'Converted']
+
+    # drop the column SES
+    df.drop(['SES'], axis=1)
+
+    print(df.shape) # check to make sure data was dropped
+
     # drop rows with missing data
     df.dropna(inplace=True)
     print(df.shape) # check to make sure data was dropped
-
-    # drop the rows where the value is converted instead of dementia and nondem
-    df = df[df['Group'] != 'Converted']
-    print(df.shape) # check to make sure data was dropped
+    
 
     return df
+
 
 # transforms and cleans dataset for use
 def encode_data(df):

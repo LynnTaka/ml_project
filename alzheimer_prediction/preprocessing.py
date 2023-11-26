@@ -8,28 +8,26 @@ def read_data(data_path):
     # put csv into object
     df = pd.read_csv(data_path)
 
-    # check the head of data comment out later
+    # check the head of data
     # print(df.head())
 
     # 373 rows in dataset
     # print(df.shape)
 
     # check to see if there are missing values in any row
+    # print("EMPTY FIELDS:")
     # print(df[pd.isnull(df).any(axis=1)])
-    print(df.isna().sum())
+    # print(df.isna().sum())
 
     # drop the rows where the value is converted instead of dementia and nondem
     # df = df[df['Group'] != 'Converted']
 
     # drop the column SES
-    df.drop(['SES'], axis=1)
+    df = df.drop(['SES'], axis=1)
 
-    print(df.shape) # check to make sure data was dropped
 
     # drop rows with missing data
     df.dropna(inplace=True)
-    print(df.shape) # check to make sure data was dropped
-    
 
     return df
 
@@ -46,9 +44,15 @@ def encode_data(df):
     X = df.drop('Group', axis=1)
     y = df['Group']
 
-    print(df.shape) # check to make sure data was dropped
+    # encode as everything that is demented as 1 and nondemented as 0
+    temp_dict = {'Nondemented': 0, 'Demented': 1, 'Converted': 1}
 
-    return X, y
+    # encode and create a new df
+    new_y = y.map(temp_dict).rename('Encoded_Group').to_frame()
+
+    print(new_y)
+
+    return X, y, new_y
 
 # prinnt out which features are most important using rf
 def find_important_features(X, y):

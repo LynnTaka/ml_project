@@ -1,6 +1,8 @@
 import numpy as np
 import tensorflow as tf
 from preprocessing import *
+from postprocessing import *
+from support_vector_model import *
 
 
 if __name__ == '__main__':
@@ -19,7 +21,7 @@ if __name__ == '__main__':
 
     X = X.reset_index(drop=True)
     y = y.reset_index(drop=True)
-    new_y = new_y.reset_index(drop=True)
+    y_new = new_y.reset_index(drop=True)
 
     # split data 70-30
     train_idx = np.random.choice(len(X), round(len(X) * 0.7), replace=False)
@@ -28,9 +30,15 @@ if __name__ == '__main__':
     y_train = y.loc[train_idx]
     X_test = X.loc[test_idx]
     y_test = y.loc[test_idx]
+    print(type(X_train))
+    print(type(y_train))
+    print(type(X_test))
+    print(type(y_test))
 
     # print(y_train)
     # print(y_test)
+
+    train_svm(X_train, y_train, X_test, y_test, seed)
 
 
 

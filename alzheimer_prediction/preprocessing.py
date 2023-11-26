@@ -50,7 +50,8 @@ def encode_data(df):
     # encode and create a new df
     new_y = y.map(temp_dict).rename('Encoded_Group').to_frame()
 
-    print(new_y)
+    # print(new_y)
+
 
     return X, y, new_y
 

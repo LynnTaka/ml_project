@@ -24,6 +24,7 @@ def read_data(data_path):
 
     # drop the column SES
     df = df.drop(['SES'], axis=1)
+    # print(df.shape)
 
 
     # drop rows with missing data
@@ -34,7 +35,7 @@ def read_data(data_path):
 
 # transforms and cleans dataset for use
 def encode_data(df):
-    # print("encode_data")
+    print("encode_data")
 
     # encode categorical variables
     label_encoder = LabelEncoder()
@@ -55,7 +56,7 @@ def encode_data(df):
 
     return X, y, new_y
 
-# prinnt out which features are most important using rf
+# print out which features are most important using rf
 def find_important_features(X, y):
     # print("find_important_features")
     

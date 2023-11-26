@@ -1,4 +1,5 @@
 from sklearn.svm import SVC
+from sklearn import svm
 from sklearn.metrics import accuracy_score, classification_report
 
 def train_svm(X_test, y_test, X_train, y_train, seed):
@@ -16,3 +17,36 @@ def train_svm(X_test, y_test, X_train, y_train, seed):
 
     print(f'Training: {train_accuracy:.2f}')
     print(f'Testing: {test_accuracy:.2f}')
+
+def train_svm_multiple(X_test, y_test, X_train, y_train, seed):
+    # define hyperparameters
+    c = [1,2,10,100]
+    degree = [1,2,3]
+    kernel = ['linear', 'poly', 'rbf']
+    decision_function_shape = ['ovo', 'ovr']
+
+    best_accuracy = 0
+    best_parameters = None
+
+    for c_val in c:
+        for d_val in degree:
+            for k_val in kernel:
+                for dfs_val in decision_function_shape:
+                    # initialize svm classifier
+                    clf = svm.SVC(C=c_val, degree=d_val, kernel=k_val, decision_function_shape=dfs_val)
+                    
+                    # Fit SVM to training data
+                    clf.fit(X_train, y_train)
+
+                    for (x_testSample, y_testSample) in zip(X_test, y_test):
+                        prediction = clf.predict([x_testSample])
+                        if prediction == y_testSample:
+                            accuracy += 1
+                    accuracy /= len(y_test)
+
+                    if accuracy > best_accuracy:
+                        best_accuracy = accuracy
+                        best_parameters = ("Highest SVM accuracy so far: " + str(best_accuracy) + "\n"
+                                        + "Parameters: c=" + str(c_val) + ", degree=" + str(d_val)
+                                        + ", kernel=" + k_val + ", decision function shape=" + dfs_val + "\n")
+                        print(best_parameters)

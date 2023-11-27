@@ -3,9 +3,9 @@ from sklearn import svm
 from sklearn.metrics import accuracy_score, classification_report
 
 
-def train_svm(X_test, y_test, X_train, y_train, seed):
+def best_svm(X_test, y_test, X_train, y_train, seed):
     # create and train svm model
-    clf = SVC(kernel='linear', random_state=seed)
+    clf = SVC(C=1, degree=1, kernel='linear', decision_function_shape='ovo', random_state=seed)
     clf.fit(X_train, y_train.values.ravel())
 
     # predictions
@@ -31,7 +31,7 @@ def train_svm_multiple(X_test, y_test, X_train, y_train, seed):
 
     best_accuracy = 0
     best_parameters = None
-    count = 0
+    # count = 0
 
     print(type(X_train))
     print(type(y_train))
@@ -42,9 +42,9 @@ def train_svm_multiple(X_test, y_test, X_train, y_train, seed):
         for d_val in degree:
             for k_val in kernel:
                 for dfs_val in decision_function_shape:
-                    print(count)
+                    # print(count)
                     # initialize svm classifier
-                    clf = svm.SVC(C=c_val, degree=d_val, kernel=k_val, decision_function_shape=dfs_val)
+                    clf = svm.SVC(C=c_val, degree=d_val, kernel=k_val, decision_function_shape=dfs_val, random_state=seed)
 
                     # Fit SVM to training data
                     clf.fit(X_train, y_train.values.ravel())
@@ -57,7 +57,7 @@ def train_svm_multiple(X_test, y_test, X_train, y_train, seed):
                     y_pred = clf.predict(X_test)
                     accuracy = accuracy_score(y_test.values.ravel(), y_pred)
 
-                    count+=1
+                    # count += 1
                     if accuracy > best_accuracy:
                         best_accuracy = accuracy
                         best_parameters = ("Highest SVM accuracy so far: " + str(best_accuracy) + "\n"

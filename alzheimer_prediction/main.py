@@ -13,10 +13,10 @@ if __name__ == '__main__':
 
     # preprocessing
     dp = pre.read_data(datapath)
-    print("dp:")
-    print(dp)
+    # print("dp:")
+    # print(dp)
     X, y, new_y = pre.encode_data(dp)
-    # find_important_features(X, y)
+    # pre.find_important_features(X, y)
 
     # set seed for numpy and tensorflow
     seed = 10
@@ -38,7 +38,9 @@ if __name__ == '__main__':
     # print(y_train)
     # print(y_test)
 
-    svmLib.train_svm_multiple(X_train, y_train, X_test, y_test, seed)
+    # svmLib.train_svm_multiple(X_train, y_train, X_test, y_test, seed)
+
+    svmLib.best_svm(X_train, y_train, X_test, y_test, seed)
 
 
 

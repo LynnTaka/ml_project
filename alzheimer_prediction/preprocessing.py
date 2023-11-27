@@ -7,10 +7,11 @@ from sklearn.ensemble import RandomForestClassifier
 def read_data(data_path):
     # put csv into object
     df = pd.read_csv(data_path, sep=',', skiprows=1, header=None)
-    
+
     # df = pd.read_csv('optdigits.tra', sep=',', header=None) #reading the training data by using Pandas library
 
     # check the head of data
+    print('head')
     print(df.head())
 
     # 373 rows in dataset
@@ -25,12 +26,13 @@ def read_data(data_path):
     # df = df[df['Group'] != 'Converted']
 
     # drop the column SES
-    df = df.drop([4], axis=1)
+    df = df.drop(df.columns[4], axis=1)
     # print(df.shape)
-
+    print(type(df))
+    print(df.head())
 
     # drop rows with missing data
-    df = df.dropna(inplace=True)
+    df.dropna(inplace=True)
 
     return df
 
@@ -52,7 +54,7 @@ def encode_data(df):
 
     # encode and create a new df
     new_y = y.map(temp_dict).to_frame()
-    
+
     print("X:")
     print(X)
 
@@ -62,24 +64,22 @@ def encode_data(df):
     print("New Y:")
     print(new_y)
 
-
     return X, y, new_y
+
 
 # prinnt out which features are most important using rf
 def find_important_features(X, y):
     # print("find_important_features")
-    
+
     # initialize and fit model to data
     rf = RandomForestClassifier()
-    rf.fit(X,y)
+    rf.fit(X, y)
 
     # get feature importance from pre-built model
     important_features = rf.feature_importances_
 
-    # display important features 
+    # display important features
     important_df = pd.DataFrame({'Feature': X.columns, 'Importance': important_features})
     important_df = important_df.sort_values(by='Importance', ascending=False)
     print(important_df)
-
-
 

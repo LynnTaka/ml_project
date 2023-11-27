@@ -10,10 +10,10 @@ def train_svm(X_test, y_test, X_train, y_train, seed):
 
     # predictions
     train_predictions = clf.predict(X_train)
-    test_predictions = clf.predict(X_test)
-
     # Evaluate the performance
     train_accuracy = accuracy_score(y_train.values.ravel(), train_predictions)
+
+    test_predictions = clf.predict(X_test)
     test_accuracy = accuracy_score(y_test.values.ravel(), test_predictions)
 
     print(f'Training: {train_accuracy:.2f}')
@@ -31,6 +31,7 @@ def train_svm_multiple(X_test, y_test, X_train, y_train, seed):
 
     best_accuracy = 0
     best_parameters = None
+    count = 0
 
     print(type(X_train))
     print(type(y_train))
@@ -41,29 +42,22 @@ def train_svm_multiple(X_test, y_test, X_train, y_train, seed):
         for d_val in degree:
             for k_val in kernel:
                 for dfs_val in decision_function_shape:
+                    print(count)
                     # initialize svm classifier
                     clf = svm.SVC(C=c_val, degree=d_val, kernel=k_val, decision_function_shape=dfs_val)
 
                     # Fit SVM to training data
-                    clf.fit(X_train, y_train)
-
-                    accuracy = 0
+                    clf.fit(X_train, y_train.values.ravel())
 
                     # for x_test_sample, y_test_sample in zip(X_test, y_test):
                     #     prediction = clf.predict(x_test_sample.reshape(1,-1))
                     #     if prediction == y_test_sample:
                     #         accuracy += 1
 
-                    for x_test_sample, y_test_sample in zip(X_test, y_test):
-                        # predictions
-                        prediction = clf.predict([x_test_sample].reshape(1,-1))
-                        if prediction == y_test_sample:
-                            accuracy += 1
+                    y_pred = clf.predict(X_test)
+                    accuracy = accuracy_score(y_test.values.ravel(), y_pred)
 
-
-                    # Calculate overall accuracy
-                    accuracy /= len(y_test)
-
+                    count+=1
                     if accuracy > best_accuracy:
                         best_accuracy = accuracy
                         best_parameters = ("Highest SVM accuracy so far: " + str(best_accuracy) + "\n"

@@ -19,6 +19,8 @@ def train_svm(X_test, y_test, X_train, y_train, seed):
     print(f'Testing: {test_accuracy:.2f}')
 
 def train_svm_multiple(X_test, y_test, X_train, y_train, seed):
+    print('inside train svm multiple')
+    
     # define hyperparameters
     c = [1,2,10,100]
     degree = [1,2,3]
@@ -27,6 +29,11 @@ def train_svm_multiple(X_test, y_test, X_train, y_train, seed):
 
     best_accuracy = 0
     best_parameters = None
+    
+    print(type(X_train))
+    print(type(y_train))
+    print(type(X_test))
+    print(type(y_test))
 
     for c_val in c:
         for d_val in degree:
@@ -37,6 +44,8 @@ def train_svm_multiple(X_test, y_test, X_train, y_train, seed):
                     
                     # Fit SVM to training data
                     clf.fit(X_train, y_train)
+                    
+                    accuracy = 0
 
                     for (x_testSample, y_testSample) in zip(X_test, y_test):
                         prediction = clf.predict([x_testSample])

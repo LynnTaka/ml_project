@@ -6,10 +6,12 @@ from sklearn.ensemble import RandomForestClassifier
 # gets data from csv file and returns data frame obj
 def read_data(data_path):
     # put csv into object
-    df = pd.read_csv(data_path)
+    df = pd.read_csv(data_path, sep=',', skiprows=1, header=None)
+    
+    # df = pd.read_csv('optdigits.tra', sep=',', header=None) #reading the training data by using Pandas library
 
     # check the head of data
-    # print(df.head())
+    print(df.head())
 
     # 373 rows in dataset
     # print(df.shape)
@@ -23,12 +25,12 @@ def read_data(data_path):
     # df = df[df['Group'] != 'Converted']
 
     # drop the column SES
-    df = df.drop(['SES'], axis=1)
+    df = df.drop([4], axis=1)
     # print(df.shape)
 
 
     # drop rows with missing data
-    df.dropna(inplace=True)
+    df = df.dropna(inplace=True)
 
     return df
 
@@ -39,24 +41,31 @@ def encode_data(df):
 
     # encode categorical variables
     label_encoder = LabelEncoder()
-    df['M/F'] = label_encoder.fit_transform(df['M/F'])
+    df[1] = label_encoder.fit_transform(df[1])
 
     # split into inputs and outputs
-    X = df.drop('Group', axis=1)
-    y = df['Group']
+    X = df.drop(df.columns[0], axis=1)
+    y = df[0]
 
     # encode as everything that is demented as 1 and nondemented as 0
     temp_dict = {'Nondemented': 0, 'Demented': 1, 'Converted': 1}
 
     # encode and create a new df
-    new_y = y.map(temp_dict).rename('Encoded_Group').to_frame()
+    new_y = y.map(temp_dict).to_frame()
+    
+    print("X:")
+    print(X)
 
-    # print(new_y)
+    print("Y:")
+    print(y)
+
+    print("New Y:")
+    print(new_y)
 
 
     return X, y, new_y
 
-# print out which features are most important using rf
+# prinnt out which features are most important using rf
 def find_important_features(X, y):
     # print("find_important_features")
     

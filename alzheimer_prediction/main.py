@@ -13,6 +13,8 @@ if __name__ == '__main__':
 
     # preprocessing
     dp = pre.read_data(datapath)
+    print("dp:")
+    print(dp)
     X, y, new_y = pre.encode_data(dp)
     # find_important_features(X, y)
 
@@ -32,11 +34,7 @@ if __name__ == '__main__':
     y_train = y_new.loc[train_idx]
     X_test = X.loc[test_idx]
     y_test = y_new.loc[test_idx]
-    print(type(X_train))
-    print(type(y_train))
-    print(type(X_test))
-    print(type(y_test))
-
+    
     # print(y_train)
     # print(y_test)
 

@@ -19,6 +19,9 @@ def best_svm(X_test, y_test, X_train, y_train, seed):
     print(f'Training: {train_accuracy:.2f}')
     print(f'Testing: {test_accuracy:.2f}')
 
+    # Returning testing predictions for postprocessing purposes
+    return test_predictions
+
 
 def train_svm_multiple(X_test, y_test, X_train, y_train, seed):
     print('inside train svm multiple')

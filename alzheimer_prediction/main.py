@@ -40,7 +40,10 @@ if __name__ == '__main__':
 
     # svmLib.train_svm_multiple(X_train, y_train, X_test, y_test, seed)
 
-    svmLib.best_svm(X_train, y_train, X_test, y_test, seed)
+    #svmLib.best_svm(X_train, y_train, X_test, y_test, seed)
+
+    print("Grid search:")
+    post.umap_GridSearch(X_train, y_train)
 
 
 

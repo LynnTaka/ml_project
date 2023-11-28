@@ -37,10 +37,20 @@ if __name__ == '__main__':
     
     # print(y_train)
     # print(y_test)
-
+    
     # svmLib.train_svm_multiple(X_train, y_train, X_test, y_test, seed)
 
-    svmLib.best_svm(X_train, y_train, X_test, y_test, seed)
+    # svmLib.best_svm(X_train, y_train, X_test, y_test, seed)
 
+    # Postprocessing: get the most important features to highlight
+    print(X_train)
+    headers = ["M/F", "Age", "MMSE", "CDR", "eTIV", "nWBV", "ASF"]
+    X_train.columns = headers
+    print(X_train)
+    y_train.columns = ["Group"]
+    print(y_train)
+    pre.find_important_features(X_train, y_train)
+
+    
 
 

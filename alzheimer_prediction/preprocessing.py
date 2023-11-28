@@ -66,7 +66,7 @@ def encode_data(df):
     return X, y, new_y
 
 
-# prinnt out which features are most important using rf
+# print out which features are most important using rf
 def find_important_features(X, y):
     # print("find_important_features")
 

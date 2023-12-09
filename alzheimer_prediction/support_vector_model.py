@@ -4,12 +4,13 @@ from sklearn.metrics import accuracy_score, classification_report
 
 
 def best_svm(X_test, y_test, X_train, y_train, seed):
-    # create and train svm model
+    # Create and train svm model
     clf = SVC(C=1, degree=1, kernel='linear', decision_function_shape='ovo', random_state=seed)
     clf.fit(X_train, y_train.values.ravel())
 
-    # predictions
+    # Predictions
     train_predictions = clf.predict(X_train)
+    
     # Evaluate the performance
     train_accuracy = accuracy_score(y_train.values.ravel(), train_predictions)
 
@@ -24,7 +25,7 @@ def best_svm(X_test, y_test, X_train, y_train, seed):
 
 
 def train_svm_multiple(X_test, y_test, X_train, y_train, seed):
-    # define hyperparameters
+    # Set possible hyperparameters
     c = [1, 2, 10, 100]
     degree = [1, 2, 3]
     kernel = ['linear', 'poly', 'rbf']
@@ -32,12 +33,6 @@ def train_svm_multiple(X_test, y_test, X_train, y_train, seed):
 
     best_accuracy = 0
     best_parameters = None
-    # count = 0
-
-    # print(type(X_train))
-    # print(type(y_train))
-    # print(type(X_test))
-    # print(type(y_test))
 
     for c_val in c:
         for d_val in degree:
@@ -45,17 +40,14 @@ def train_svm_multiple(X_test, y_test, X_train, y_train, seed):
                 for dfs_val in decision_function_shape:
                     # print("Current parameters: c=" + str(c_val) + ", degree=" + str(d_val)
                     #                        + ", kernel=" + k_val + ", decision function shape=" + dfs_val)
-                    # initialize svm classifier
+                    
+                    # Initialize svm classifier
                     clf = svm.SVC(C=c_val, degree=d_val, kernel=k_val, decision_function_shape=dfs_val, random_state=seed)
 
                     # Fit SVM to training data
                     clf.fit(X_train, y_train.values.ravel())
 
-                    # for x_test_sample, y_test_sample in zip(X_test, y_test):
-                    #     prediction = clf.predict(x_test_sample.reshape(1,-1))
-                    #     if prediction == y_test_sample:
-                    #         accuracy += 1
-
+                    # Predict classes with SVM
                     y_pred = clf.predict(X_test)
                     accuracy = accuracy_score(y_test.values.ravel(), y_pred)
                     # print("Accuracy: "+str(accuracy))
@@ -67,5 +59,5 @@ def train_svm_multiple(X_test, y_test, X_train, y_train, seed):
                                            + "Parameters: c=" + str(c_val) + ", degree=" + str(d_val)
                                            + ", kernel=" + k_val + ", decision function shape=" + dfs_val + "\n")
 
-                        # Print best parameters outside the loop
-                        print(best_parameters)
+    # Print best parameters outside the loop
+    print(best_parameters)

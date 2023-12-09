@@ -5,17 +5,8 @@ from sklearn.ensemble import RandomForestClassifier
 
 # gets data from csv file and returns data frame obj
 def read_data(data_path):
-    # put csv into object
+    # Read CSV
     df = pd.read_csv(data_path, sep=',', skiprows=1, header=None)
-    # df = pd.read_csv(data_path)
-    # df = pd.read_csv('optdigits.tra', sep=',', header=None) #reading the training data by using Pandas library
-
-    # check the head of data
-    # print('head')
-    # print(df.head())
-
-    # 373 rows in dataset
-    # print(df.shape)
 
     # check to see if there are missing values in any row
     # print("EMPTY FIELDS:")
@@ -25,7 +16,6 @@ def read_data(data_path):
     # drop the column SES, drop education
     df = df.drop(df.columns[4], axis=1)
     df = df.drop(df.columns[3], axis=1)
-    # print(df.shape)
 
     # drop rows with missing data
     df.dropna(inplace=True)
@@ -40,28 +30,16 @@ def encode_data(df):
     # encode categorical variables
     label_encoder = LabelEncoder()
     df[1] = label_encoder.fit_transform(df[1])
-    # df['M/F'] = label_encoder.fit_transform(df['M/F'])
 
     # split into inputs and outputs
     X = df.drop(df.columns[0], axis=1)
-    # X = df.drop('Group', axis=1)
     y = df[0]
-    # y = df['Group']
 
-    # encode as everything that is demented as 1 and nondemented as 0
+    # Encode "Demented" and "Converted" as 1 and "Nondemented" as 0
     temp_dict = {'Nondemented': 0, 'Demented': 1, 'Converted': 1}
 
     # encode and create a new df
     new_y = y.map(temp_dict).to_frame()
-
-    # print("X:")
-    # print(X)
-    #
-    # print("Y:")
-    # print(y)
-    #
-    # print("New Y:")
-    # print(new_y)
 
     return X, y, new_y
 
@@ -81,4 +59,3 @@ def find_important_features(X, y):
     important_df = pd.DataFrame({'Feature': X.columns, 'Importance': important_features})
     important_df = important_df.sort_values(by='Importance', ascending=False)
     print(important_df)
-

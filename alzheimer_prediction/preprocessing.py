@@ -25,7 +25,7 @@ def read_data(data_path):
 
 # transforms and cleans dataset for use
 def encode_data(df):
-    print("encode_data")
+    #print("encode_data")
 
     # encode categorical variables
     label_encoder = LabelEncoder()

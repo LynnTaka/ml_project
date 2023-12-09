@@ -15,7 +15,7 @@ def create_2D_SVM(x_train, y_train, seed):
     Z = clf.decision_function(np.c_[xx.ravel(), yy.ravel()])
     Z = Z.reshape(xx.shape)
 
-    plt.contour(xx, yy, Z, levels=[0], linewidths=2, colors='black')
+    plt.contour(xx, yy, Z, levels=[-1, 0, 1], linewidths=2, colors='black')
 
     # Plot data points
     plt.scatter(x_train['CDR'], x_train['MMSE'], c=y_train, cmap=plt.cm.Paired, edgecolors='k', marker='o')

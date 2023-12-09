@@ -72,4 +72,4 @@ if __name__ == '__main__':
 
     # Plot SVM with 2 most important features
     #post.create_2D_SVM(x_reduction, y_train, seed)
-    post.plot_SVM(x_reduction, y_train, seed)
+    post.plot_2D_SVM(x_reduction, y_train, seed)

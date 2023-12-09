@@ -26,9 +26,18 @@ def plot_2D_SVM(x_train, y_train, seed):
     scatter = plt.scatter(clf.support_vectors_[:, 0], clf.support_vectors_[:, 1], s=100, facecolors='none', edgecolors='k')
 
     # Plot decision hyperplane
-    a = -w[0] / w[1]
-    xx_hyperplane = np.linspace(x_train['CDR'].min(), x_train['CDR'].max())
-    yy_hyperplane = a * xx_hyperplane - (clf.intercept_[0]) / w[1]
+    print("w[1]")
+    print(w[1])
+
+    # Check if w[1] is close to zero
+    if np.abs(w[1]) > 1e-10:
+        a = -w[0] / w[1]
+        xx_hyperplane = np.linspace(x_train['CDR'].min(), x_train['CDR'].max())
+        yy_hyperplane = a * xx_hyperplane - (clf.intercept_[0]) / w[1]
+    else:
+        # Set x-values to a constant (vertical line)
+        xx_hyperplane = np.full_like(xx_hyperplane, np.mean(x_train['CDR']))
+        yy_hyperplane = np.linspace(x_train['CDR'].min(), x_train['CDR'].max())
 
     plt.plot(xx_hyperplane, yy_hyperplane, 'k-')
 

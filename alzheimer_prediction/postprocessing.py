@@ -23,7 +23,7 @@ def plot_2D_SVM(x_train, y_train, seed):
     plt.contour(xx, yy, Z, colors='k', levels=[-1, 0, 1], alpha=0.5, linestyles=['--', '-', '--'])
 
     # Plot support vectors
-    plt.scatter(clf.support_vectors_[:, 0], clf.support_vectors_[:, 1], s=100, facecolors='none', edgecolors='k')
+    scatter = plt.scatter(clf.support_vectors_[:, 0], clf.support_vectors_[:, 1], s=100, facecolors='none', edgecolors='k')
 
     # Plot decision hyperplane
     a = -w[0] / w[1]
@@ -42,9 +42,12 @@ def plot_2D_SVM(x_train, y_train, seed):
     plt.plot(xx_hyperplane, yy_bottom, 'k--')
 
     # Name title and axis labels
-    plt.title('SVM')
-    plt.xlabel('CDR')
-    plt.ylabel('MMSE')
+    plt.title('Dementia Classification SVM')
+    plt.xlabel('Clinical Dementia Rating')
+    plt.ylabel('Mini-Mental State Examination')
+
+    # Check color coding for classes
+    # plt.colorbar(scatter, label='Class')
 
     plt.savefig('svm.png')
     plt.show()

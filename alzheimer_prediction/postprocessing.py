@@ -3,48 +3,76 @@ import matplotlib.pyplot as plt
 from sklearn.svm import SVC
 import seaborn as sns
 
-
 def create_2D_SVM(x_train, y_train, seed):
     clf = SVC(C=1, degree=1, kernel='linear', decision_function_shape='ovo', random_state=seed)
     clf.fit(x_train, y_train.values.ravel())
 
-    # Plot SVM
-    # Create 2-feature plot
-    plt.figure(figsize=(10, 8))
-    # print("X train")
-    # print(type(x_train))
-    # print(x_train)
-    # print("Y train")
-    # print(type(y_train))
-    # print(y_train)
+    # Create a meshgrid for the plot
+    xx, yy = np.meshgrid(np.linspace(x_train['CDR'].min()-1, x_train['CDR'].max()+1, 100),
+                        np.linspace(x_train['MMSE'].min()-1, x_train['MMSE'].max()+1, 100))
 
-    # x1_temp = x_train['CDR']
-    # print("X1 temp")
-    # print(type(x1_temp))
-    # print(x1_temp)
-    # x2_temp = x_train['MMSE']
-    # print("X2 temp")
-    # print(type(x2_temp))
-    # print(x2_temp)
-    # y_temp = y_train.values.ravel()
-    # print("y temp")
-    # print(type(y_temp))
-    # print(y_temp)
+    # Plot decision boundary
+    Z = clf.decision_function(np.c_[xx.ravel(), yy.ravel()])
+    Z = Z.reshape(xx.shape)
 
-    # might need to change y_train
-    sns.scatterplot(x=x_train['CDR'], y=x_train['MMSE'], hue=y_train.values.ravel(), s=8)
-    # sns.scatterplot(x=x_train.iloc[0].ravel(), y=x_train.iloc[1].ravel(), hue=y_train.values.ravel(), s=8)
+    plt.contour(xx, yy, Z, levels=[0], linewidths=2, colors='black')
 
-    # Create hyperplane
-    w = clf.coef_[0]
-    print("w")
-    print(w)
-    b = clf.intercept_[0]
-    x_points = np.linspace(-1, 1)
-    y_points = -(w[0]/w[1]) * x_points - b / w[1]
+    # Plot data points
+    plt.scatter(x_train['CDR'], x_train['MMSE'], c=y_train, cmap=plt.cm.Paired, edgecolors='k', marker='o')
 
-    # Plot red hyperplant
-    plt.plot(x_points, y_points, c='r')
+    # Highlight support vectors
+    plt.scatter(clf.support_vectors_[:, 0], clf.support_vectors_[:, 1],
+                s=100, facecolors='none', edgecolors='k')
+
+    # Set labels and show the plot
+    plt.title('SVM Decision Boundary')
+    plt.xlabel('Feature 1')
+    plt.ylabel('Feature 2')
+    plt.show()
+
+
+
+# def create_2D_SVM(x_train, y_train, seed):
+#     clf = SVC(C=1, degree=1, kernel='linear', decision_function_shape='ovo', random_state=seed)
+#     clf.fit(x_train, y_train.values.ravel())
+
+#     # Plot SVM
+#     # Create 2-feature plot
+#     plt.figure(figsize=(10, 8))
+#     # print("X train")
+#     # print(type(x_train))
+#     # print(x_train)
+#     # print("Y train")
+#     # print(type(y_train))
+#     # print(y_train)
+
+#     # x1_temp = x_train['CDR']
+#     # print("X1 temp")
+#     # print(type(x1_temp))
+#     # print(x1_temp)
+#     # x2_temp = x_train['MMSE']
+#     # print("X2 temp")
+#     # print(type(x2_temp))
+#     # print(x2_temp)
+#     # y_temp = y_train.values.ravel()
+#     # print("y temp")
+#     # print(type(y_temp))
+#     # print(y_temp)
+
+#     # might need to change y_train
+#     sns.scatterplot(x=x_train['CDR'], y=x_train['MMSE'], hue=y_train.values.ravel(), s=8)
+#     # sns.scatterplot(x=x_train.iloc[0].ravel(), y=x_train.iloc[1].ravel(), hue=y_train.values.ravel(), s=8)
+
+#     # Create hyperplane
+#     w = clf.coef_[0]
+#     print("w")
+#     print(w)
+#     b = clf.intercept_[0]
+#     x_points = np.linspace(-1, 1)
+#     y_points = -(w[0]/w[1]) * x_points - b / w[1]
+
+#     # Plot red hyperplant
+#     plt.plot(x_points, y_points, c='r')
 
     
 

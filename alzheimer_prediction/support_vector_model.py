@@ -24,8 +24,6 @@ def best_svm(X_test, y_test, X_train, y_train, seed):
 
 
 def train_svm_multiple(X_test, y_test, X_train, y_train, seed):
-    print('inside train svm multiple')
-
     # define hyperparameters
     c = [1, 2, 10, 100]
     degree = [1, 2, 3]

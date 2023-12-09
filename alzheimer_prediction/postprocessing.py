@@ -28,6 +28,8 @@ def create_2D_SVM(x_train, y_train, seed):
     plt.title('SVM Decision Boundary')
     plt.xlabel('Feature 1')
     plt.ylabel('Feature 2')
+    
+    plt.savefig('svm.png')
     plt.show()
 
 

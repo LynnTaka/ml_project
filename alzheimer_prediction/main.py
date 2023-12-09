@@ -3,6 +3,7 @@ import tensorflow as tf
 import preprocessing as pre
 import postprocessing as post
 import support_vector_model as svmLib
+
 # from preprocessing import *
 # from postprocessing import * 
 # from support_vector_model import *
@@ -35,22 +36,39 @@ if __name__ == '__main__':
     X_test = X.loc[test_idx]
     y_test = y_new.loc[test_idx]
     
-    # print(y_train)
-    # print(y_test)
-    
+    # Find the best parameters for the SVM; comment when done
     # svmLib.train_svm_multiple(X_train, y_train, X_test, y_test, seed)
-
+    
+    ##### UNCOMMENT LATER
+    # Train best SVM
     # svmLib.best_svm(X_train, y_train, X_test, y_test, seed)
 
     # Postprocessing: get the most important features to highlight
-    print(X_train)
+    #print("X training:")
+    #print(X_train)
     headers = ["M/F", "Age", "MMSE", "CDR", "eTIV", "nWBV", "ASF"]
     X_train.columns = headers
-    print(X_train)
-    y_train.columns = ["Group"]
+    #print(X_train)
+    # y_train.columns = ["Group"]
+    print("y train:")
     print(y_train)
     pre.find_important_features(X_train, y_train)
 
-    
+    # Find best parameters for SVM with top 2 features
+    x_reduction = X_train[["CDR", "MMSE"]]
+    #x_reduction = X_train.iloc[:, [3, 4]]
+    #print("X reduced")
+    #print(x_reduction)
 
+    X_test.columns = headers
+    x_reduced_test = X_test[["CDR", "MMSE"]]
+    # print("x testing reduced")
+    # print(x_reduced_test)
 
+    # print("y test")
+    # print(y_test)
+
+    #svmLib.train_svm_multiple(x_reduction, y_train, x_reduced_test, y_test, seed)
+
+    # Plot SVM with 2 most important features
+    post.create_2D_SVM(x_reduction, y_train, seed)

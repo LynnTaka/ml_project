@@ -36,16 +36,17 @@ def train_svm_multiple(X_test, y_test, X_train, y_train, seed):
     best_parameters = None
     # count = 0
 
-    print(type(X_train))
-    print(type(y_train))
-    print(type(X_test))
-    print(type(y_test))
+    # print(type(X_train))
+    # print(type(y_train))
+    # print(type(X_test))
+    # print(type(y_test))
 
     for c_val in c:
         for d_val in degree:
             for k_val in kernel:
                 for dfs_val in decision_function_shape:
-                    # print(count)
+                    # print("Current parameters: c=" + str(c_val) + ", degree=" + str(d_val)
+                    #                        + ", kernel=" + k_val + ", decision function shape=" + dfs_val)
                     # initialize svm classifier
                     clf = svm.SVC(C=c_val, degree=d_val, kernel=k_val, decision_function_shape=dfs_val, random_state=seed)
 
@@ -59,6 +60,7 @@ def train_svm_multiple(X_test, y_test, X_train, y_train, seed):
 
                     y_pred = clf.predict(X_test)
                     accuracy = accuracy_score(y_test.values.ravel(), y_pred)
+                    # print("Accuracy: "+str(accuracy))
 
                     # count += 1
                     if accuracy > best_accuracy:
@@ -67,5 +69,5 @@ def train_svm_multiple(X_test, y_test, X_train, y_train, seed):
                                            + "Parameters: c=" + str(c_val) + ", degree=" + str(d_val)
                                            + ", kernel=" + k_val + ", decision function shape=" + dfs_val + "\n")
 
-        # Print best parameters outside the loop
-    print(best_parameters)
+                        # Print best parameters outside the loop
+                        print(best_parameters)

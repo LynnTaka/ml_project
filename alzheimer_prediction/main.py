@@ -71,4 +71,5 @@ if __name__ == '__main__':
     #svmLib.train_svm_multiple(x_reduction, y_train, x_reduced_test, y_test, seed)
 
     # Plot SVM with 2 most important features
-    post.create_2D_SVM(x_reduction, y_train, seed)
+    #post.create_2D_SVM(x_reduction, y_train, seed)
+    post.plot_SVM(x_reduction, y_train, seed)

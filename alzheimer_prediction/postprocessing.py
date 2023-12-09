@@ -1,7 +1,55 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.svm import SVC
+from sklearn import datasets, svm
 import seaborn as sns
+
+def plot_SVM(x_train, y_train, seed):
+    clf = SVC(C=1, degree=1, kernel='linear', decision_function_shape='ovo', random_state=seed)
+    clf.fit(x_train, y_train.values.ravel())
+
+    # Get the weight (coef) and bias (intercept) from the trained model
+    w = clf.coef_[0]
+    b = clf.intercept_[0]
+
+    # Create a meshgrid to plot decision boundaries
+    xx, yy = np.meshgrid(np.linspace(x_train['CDR'].min()-0.5, x_train['CDR'].max()+0.5, 100),
+                        np.linspace(x_train['MMSE'].min()-1, x_train['MMSE'].max()+1, 100))
+    Z = clf.decision_function(np.c_[xx.ravel(), yy.ravel()])
+    Z = Z.reshape(xx.shape)
+
+    # Plot the data points
+    plt.scatter(x_train['CDR'], x_train['MMSE'], c=y_train, cmap=plt.cm.Paired, edgecolors='k', alpha=0.7)
+
+    # Plot the decision boundaries and margins
+    plt.contour(xx, yy, Z, colors='k', levels=[-1, 0, 1], alpha=0.5, linestyles=['--', '-', '--'])
+
+    # Plot support vectors
+    plt.scatter(clf.support_vectors_[:, 0], clf.support_vectors_[:, 1], s=100, facecolors='none', edgecolors='k')
+
+    # Plot the hyperplane
+    a = -w[0] / w[1]
+    xx_hyperplane = np.linspace(x_train['CDR'].min(), x_train['CDR'].max())
+    yy_hyperplane = a * xx_hyperplane - (clf.intercept_[0]) / w[1]
+
+    plt.plot(xx_hyperplane, yy_hyperplane, 'k-')
+
+    # Plot the parallel hyperplanes
+    b1 = clf.support_vectors_[0]
+    yy_top = a * xx_hyperplane + (b1[1] - a * b1[0])
+    b2 = clf.support_vectors_[-1]
+    yy_bottom = a * xx_hyperplane + (b2[1] - a * b2[0])
+
+    plt.plot(xx_hyperplane, yy_top, 'k--')
+    plt.plot(xx_hyperplane, yy_bottom, 'k--')
+
+    # Set labels and show the plot
+    plt.title('SVM')
+    plt.xlabel('CDR')
+    plt.ylabel('MMSE')
+
+    plt.savefig('svm3.png')
+    plt.show()
 
 def create_2D_SVM(x_train, y_train, seed):
     clf = SVC(C=1, degree=1, kernel='linear', decision_function_shape='ovo', random_state=seed)
@@ -25,9 +73,9 @@ def create_2D_SVM(x_train, y_train, seed):
                 s=100, facecolors='none', edgecolors='k')
 
     # Set labels and show the plot
-    plt.title('SVM Decision Boundary')
-    plt.xlabel('Feature 1')
-    plt.ylabel('Feature 2')
+    plt.title('SVM')
+    plt.xlabel('CDR')
+    plt.ylabel('MMSE')
     
     plt.savefig('svm.png')
     plt.show()

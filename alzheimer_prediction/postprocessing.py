@@ -42,9 +42,9 @@ def plot_2D_SVM(x_train, y_train, seed):
     plt.plot(xx_hyperplane, yy_bottom, 'k--')
 
     # Name title and axis labels
-    plt.title('SVM')
-    plt.xlabel('CDR')
-    plt.ylabel('MMSE')
+    plt.title('SVM for Dementia Classification')
+    plt.xlabel('Clinical Dementia Rating (CDR)')
+    plt.ylabel('Mini-Mental State Examination (MMSE)')
 
     plt.savefig('svm.png')
     plt.show()
